@@ -7,7 +7,7 @@ library(dplyr)
 
 # Functions ---------------------------------------------------------------
 # To keep things neat, making some plotting functions up here
-make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_label){
+make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_label, target_num){
   output_plot <- pollen_data %>%
     filter(bench == bench_num) %>%
     ggplot(aes(x, y,
@@ -22,55 +22,55 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
     scale_fill_gradient(low = color_vec[1],
                         high = color_vec[2],
                         na.value = color_vec[3],
-                        lim = c(0, 7)) +
+                        lim = c(0, target_num - 1)) +
     coord_fixed() +
     theme_void() +
     theme(legend.position = "none",
-          plot.margin = margin(t = 0, r = 0, b = 30, l = 0))
+          plot.margin = margin(t = 0, r = 0, b = 0, l = 0))
   return(output_plot)
 }
 
 
 # UI ----------------------------------------------------------------------
-ui <- fluidPage(
-  tags$style(type='text/css', "label { font-size: 28px; 
-                                                  line-height: 28px;
-                                                  font-weight: bold; }
-                               .selectize-input { font-size: 28px; 
-                                                  line-height: 28px;
-                                                  font-weight: bold; } 
-                               .selectize-dropdown { font-size: 28px; 
-                                                     line-height: 28px; 
-                                                     font-weight: bold; }"
-  ),
+# Making the input dropdown a little better and fixing the spacing
+ui <- fluidPage(tags$style(type='text/css', "label { font-size: 28px;
+                                                line-height: 28px;
+                                                font-weight: bold;
+                                                margin-top: 20px; }
+                             .selectize-input { font-size: 28px;
+                                                line-height: 28px;
+                                                font-weight: bold; }
+                             .selectize-dropdown { font-size: 28px;
+                                                   line-height: 28px;
+                                                   font-weight: bold; }"),
   fluidRow(
     column(12, align = "center", 
       selectInput("slider_choice", "Select data:", c("26 °C", "34 °C", "Flowers"))
     )
   ),
   fluidRow(
-    plotOutput("plot_8")
+    plotOutput("plot_8", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_7")
+    plotOutput("plot_7", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_6")
+    plotOutput("plot_6", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_5")
+    plotOutput("plot_5", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_4")
+    plotOutput("plot_4", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_3")
+    plotOutput("plot_3", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_2")
+    plotOutput("plot_2", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_1")
+    plotOutput("plot_1", height = "350px")
   )
 )
 
@@ -81,7 +81,8 @@ server <- function(input, output, session) {
   gs4_deauth()
   pollen_data_sheet <- read_sheet("15oanRivQrhWl0EFmv4zxZqsIB1pLp9InEP43pjqkfGs")
   
-  # if statement for color_vec and column_choice based on slider input choices
+  # if statements for color_vec, column_choice, target_num based on slider 
+  # input choices
   color_vec_value <- reactive({
     if (input$slider_choice == "26 °C"){
       color_vec_value <- c("white", "#3bceff", "green")
@@ -106,30 +107,43 @@ server <- function(input, output, session) {
     }
     return(column_choice_value)
   })
+  target_num <- reactive({
+    if (input$slider_choice == "26 °C"){
+      target_num <- 8
+    }
+    if (input$slider_choice == "34 °C"){
+      target_num <- 8
+    }
+    if (input$slider_choice == "Flowers"){
+      target_num <- 12
+    }
+    return(target_num)
+  })
   
+  # Making the plots
   output$plot_8 <- renderPlot({
-    make_plot(pollen_data_sheet, 8, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 8, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   output$plot_7 <- renderPlot({
-    make_plot(pollen_data_sheet, 7, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 7, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   output$plot_6 <- renderPlot({
-    make_plot(pollen_data_sheet, 6, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 6, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   output$plot_5 <- renderPlot({
-    make_plot(pollen_data_sheet, 5, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 5, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   output$plot_4 <- renderPlot({
-    make_plot(pollen_data_sheet, 4, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 4, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   output$plot_3 <- renderPlot({
-    make_plot(pollen_data_sheet, 3, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 3, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   output$plot_2 <- renderPlot({
-    make_plot(pollen_data_sheet, 2, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 2, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   output$plot_1 <- renderPlot({
-    make_plot(pollen_data_sheet, 1, color_vec_value(), column_choice_value(), input$slider_choice)
+    make_plot(pollen_data_sheet, 1, color_vec_value(), column_choice_value(), input$slider_choice, target_num())
   })
   
 }
