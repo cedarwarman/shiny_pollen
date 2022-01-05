@@ -33,9 +33,19 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
 
 # UI ----------------------------------------------------------------------
 ui <- fluidPage(
+  tags$style(type='text/css', "label { font-size: 28px; 
+                                                  line-height: 28px;
+                                                  font-weight: bold; }
+                               .selectize-input { font-size: 28px; 
+                                                  line-height: 28px;
+                                                  font-weight: bold; } 
+                               .selectize-dropdown { font-size: 28px; 
+                                                     line-height: 28px; 
+                                                     font-weight: bold; }"
+  ),
   fluidRow(
     column(12, align = "center", 
-      selectInput("slider_choice", "Select data", c("26 °C", "34 °C", "Flowers"))
+      selectInput("slider_choice", "Select data:", c("26 °C", "34 °C", "Flowers"))
     )
   ),
   fluidRow(
