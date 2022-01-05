@@ -49,6 +49,18 @@ ui <- fluidPage(
   ),
   fluidRow(
     plotOutput("plot_5")
+  ),
+  fluidRow(
+    plotOutput("plot_4")
+  ),
+  fluidRow(
+    plotOutput("plot_3")
+  ),
+  fluidRow(
+    plotOutput("plot_2")
+  ),
+  fluidRow(
+    plotOutput("plot_1")
   )
 )
 
@@ -96,6 +108,18 @@ server <- function(input, output, session) {
   })
   output$plot_5 <- renderPlot({
     make_plot(pollen_data_sheet, 5, color_vec_value(), column_choice_value(), input$slider_choice)
+  })
+  output$plot_4 <- renderPlot({
+    make_plot(pollen_data_sheet, 4, color_vec_value(), column_choice_value(), input$slider_choice)
+  })
+  output$plot_3 <- renderPlot({
+    make_plot(pollen_data_sheet, 3, color_vec_value(), column_choice_value(), input$slider_choice)
+  })
+  output$plot_2 <- renderPlot({
+    make_plot(pollen_data_sheet, 2, color_vec_value(), column_choice_value(), input$slider_choice)
+  })
+  output$plot_1 <- renderPlot({
+    make_plot(pollen_data_sheet, 1, color_vec_value(), column_choice_value(), input$slider_choice)
   })
   
 }
