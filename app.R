@@ -16,7 +16,7 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
                label = paste0(accession, "\n", .data[[column_choice]]))) +
     geom_tile(aes(height = height), color = "black", size = 2) +
     geom_text(color = "black", fontface = "bold", size = 5) +
-    geom_point(aes(x - 0.35, y + 0.35, shape = ready_for_frozen_pollen), size = 3, stroke = 2, fill = "green") +
+    geom_point(aes(x - 0.36, y + 0.36, shape = ready_for_frozen_pollen), size = 3, stroke = 2, fill = "green") +
     scale_shape_manual(values = c(NA, 21)) +
     geom_segment(aes(x = 0.5, y = 0.5, xend = 0.5, yend = 4.5), size = 2) +
     geom_segment(aes(x = 5.5, y = 0.5, xend = 5.5, yend = 4.5), size = 2) +
