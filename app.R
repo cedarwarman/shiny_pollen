@@ -31,6 +31,8 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
     geom_text(color = "black", fontface = "bold", size = 5) +
     geom_segment(aes(x = 0.5, y = 0.5, xend = 0.5, yend = 4.5), size = 2) +
     geom_segment(aes(x = 5.5, y = 0.5, xend = 5.5, yend = 4.5), size = 2) +
+    geom_segment(aes(x = 0.5, y = 0.5, xend = 5.5, yend = 0.5), size = 2) +
+    geom_segment(aes(x = 0.5, y = 4.5, xend = 5.5, yend = 4.5), size = 2) +
     annotate("text", x = 3, y = 2.85, label = bench_num, fontface = "bold", size = 25) +
     annotate("text", x = 3, y = 2.1, label = bench_label, fontface = "bold", size = 15) +
     scale_fill_gradient(low = color_vec[1],
@@ -51,6 +53,8 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
     geom_text(color = "black", fontface = "bold", size = 5) +
     geom_segment(aes(x = 0.5, y = 0.5, xend = 0.5, yend = 4.5), size = 2) +
     geom_segment(aes(x = 5.5, y = 0.5, xend = 5.5, yend = 4.5), size = 2) +
+    geom_segment(aes(x = 0.5, y = 0.5, xend = 5.5, yend = 0.5), size = 2) +
+    geom_segment(aes(x = 0.5, y = 4.5, xend = 5.5, yend = 4.5), size = 2) +
     annotate("text", x = 3, y = 2.85, label = bench_num, fontface = "bold", size = 25) +
     annotate("text", x = 3, y = 2.1, label = bench_label, fontface = "bold", size = 15) +
     scale_fill_gradient(low = color_vec[1],
