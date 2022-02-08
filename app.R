@@ -88,28 +88,42 @@ ui <- fluidPage(tags$style(type='text/css', "label { font-size: 28px;
     )
   ),
   fluidRow(
-    plotOutput("plot_8", height = "350px")
+    align = "center",
+    mainPanel(
+      width = 12,
+      h1(strong("West"))
+    )
   ),
   fluidRow(
-    plotOutput("plot_7", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_6", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_5", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_4", height = "350px")
+    plotOutput("plot_1", height = "350px")
   ),
   fluidRow(
     plotOutput("plot_3", height = "350px")
   ),
   fluidRow(
+    plotOutput("plot_5", height = "350px")
+  ),
+  fluidRow(
+    plotOutput("plot_7", height = "350px")
+  ),
+   fluidRow(
+    align = "center",
+    mainPanel(
+      width = 12,
+      h1(strong("East"))
+    )
+  ),
+  fluidRow(
     plotOutput("plot_2", height = "350px")
   ),
   fluidRow(
-    plotOutput("plot_1", height = "350px")
+    plotOutput("plot_4", height = "350px")
+  ),
+  fluidRow(
+    plotOutput("plot_6", height = "350px")
+  ),
+  fluidRow(
+    plotOutput("plot_8", height = "350px")
   )
 )
 
