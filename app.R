@@ -3,6 +3,7 @@ library(shiny)
 library(googlesheets4)
 library(ggplot2)
 library(dplyr)
+library(bslib)
 
 
 # Functions ---------------------------------------------------------------
@@ -72,58 +73,44 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
 
 # UI ----------------------------------------------------------------------
 # Making the input dropdown a little better and fixing the spacing
-ui <- fluidPage(tags$style(type='text/css', "label { font-size: 28px;
+ui <- bootstrapPage(
+  tags$style(type='text/css', "label { font-size: 28px;
                                                 line-height: 28px;
                                                 font-weight: bold;
                                                 margin-top: 20px; }
                              .selectize-input { font-size: 28px;
-                                                line-height: 28px;
-                                                font-weight: bold; }
+                                                line-height: 40px;
+                                                font-weight: bold;
+                                                vertical-align: middle;
+                                                text-align: center }
                              .selectize-dropdown { font-size: 28px;
-                                                   line-height: 28px;
-                                                   font-weight: bold; }"),
-  fluidRow(
-    column(12, align = "center", 
-      selectInput("slider_choice", "Select data:", c("26 °C", "34 °C", "Flowers", "Freezer"))
-    )
-  ),
-  fluidRow(
-    align = "center",
-    mainPanel(
-      width = 12,
-      h1(strong("West"))
-    )
-  ),
-  fluidRow(
-    plotOutput("plot_1", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_3", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_5", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_7", height = "350px")
-  ),
-   fluidRow(
-    align = "center",
-    mainPanel(
-      width = 12,
-      h1(strong("East"))
-    )
-  ),
-  fluidRow(
-    plotOutput("plot_2", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_4", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_6", height = "350px")
-  ),
-  fluidRow(
-    plotOutput("plot_8", height = "350px")
+                                                   line-height: 40px;
+                                                   font-weight: bold;
+                                                   vertical-align: middle;
+                                                   text-align: center}"),
+  theme  = bs_theme(version = 5),
+  div(class = "container-fluid",
+      div(class = "row justify-content-center",
+          align = "center",
+          selectInput("slider_choice", "Select data:", c("26 °C", "34 °C", "Flowers", "Freezer"))
+      ),
+      div(class = "row justify-content-center",
+          align = "center",
+          div(class = "col-xl-4",
+              h1(strong("West")),
+              plotOutput("plot_1", height = "300px"),
+              plotOutput("plot_3", height = "300px"),
+              plotOutput("plot_5", height = "300px"),
+              plotOutput("plot_7", height = "300px")
+          ),
+          div(class = "col-xl-4",
+              h1(strong("East")),
+              plotOutput("plot_2", height = "300px"),
+              plotOutput("plot_4", height = "300px"),
+              plotOutput("plot_6", height = "300px"),
+              plotOutput("plot_8", height = "300px")
+           )
+      )
   )
 )
 
