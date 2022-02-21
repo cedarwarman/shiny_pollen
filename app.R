@@ -9,7 +9,9 @@ library(bslib)
 # Functions ---------------------------------------------------------------
 # To keep things neat, making some plotting functions up here
 make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_label, target_num){
-  if (column_choice == "frozen_pollen"){
+  if (nrow(pollen_data %>% filter(bench == bench_num)) == 0){
+    output_plot <- NA   
+  } else if (column_choice == "frozen_pollen"){
   output_plot <- pollen_data %>%
     filter(bench == bench_num) %>%
     ggplot(aes(x, y,
