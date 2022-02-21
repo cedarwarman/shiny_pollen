@@ -10,7 +10,17 @@ library(bslib)
 # To keep things neat, making some plotting functions up here
 make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_label, target_num){
   if (nrow(pollen_data %>% filter(bench == bench_num)) == 0){
-    output_plot <- NA   
+    output_plot <- ggplot() +
+      geom_segment(aes(x = 0.5, y = 0.5, xend = 0.5, yend = 4.5), size = 2) +
+      geom_segment(aes(x = 5.5, y = 0.5, xend = 5.5, yend = 4.5), size = 2) +
+      geom_segment(aes(x = 0.5, y = 0.5, xend = 5.5, yend = 0.5), size = 2) +
+      geom_segment(aes(x = 0.5, y = 4.5, xend = 5.5, yend = 4.5), size = 2) +
+      annotate("text", x = 3, y = 2.85, label = bench_num, fontface = "bold", size = 25) +
+      annotate("text", x = 3, y = 2.1, label = bench_label, fontface = "bold", size = 15) +
+      coord_fixed() +
+      theme_void() +
+      theme(legend.position = "none",
+            plot.margin = margin(t = 0, r = 0, b = 0, l = 0))
   } else if (column_choice == "frozen_pollen"){
   output_plot <- pollen_data %>%
     filter(bench == bench_num) %>%
