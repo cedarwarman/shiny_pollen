@@ -100,6 +100,7 @@ ui <- bootstrapPage(
                                                    font-weight: bold;
                                                    vertical-align: middle;
                                                    text-align: center}"),
+  tags$head(tags$link(rel = "shortcut icon", href = "favicon.ico")),
   theme  = bs_theme(version = 5),
   div(class = "container-fluid",
       div(class = "row justify-content-center",
