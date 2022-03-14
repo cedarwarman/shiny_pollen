@@ -2,6 +2,7 @@
 library(shiny)
 library(googlesheets4)
 library(ggplot2)
+library(ggnewscale)
 library(dplyr)
 library(bslib)
 
@@ -28,8 +29,20 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
                fill = .data[[column_choice]],
                label = paste0(accession, "\n", .data[[column_choice]]))) +
     geom_tile(aes(height = height), color = "black", size = 2) +
-    geom_point(aes(x - 0.36, y + 0.36, shape = ready_for_frozen_pollen), size = 3, stroke = 2, fill = "green") +
-    scale_shape_manual(values = c(NA, 21)) +
+    scale_fill_gradient(low = color_vec[1],
+                    high = color_vec[2],
+                    na.value = color_vec[3],
+                    lim = c(0, target_num - 1)) +
+    new_scale_fill() +
+    geom_point(aes(x - 0.36, 
+                   y + 0.36, 
+                   shape = ready_for_frozen_pollen, 
+                   fill = ready_for_frozen_pollen,
+                   size = ready_for_frozen_pollen), 
+               stroke = 2) +
+    scale_shape_manual(values = c(NA, 23, 21)) +
+    scale_fill_manual(values = c(NA, "yellow", "green")) +
+    scale_size_manual(values = c(NA, 2.2, 3)) +
     # Crazy that this works
     {if(nrow(pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed")))
       geom_segment(data = pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed"),
@@ -48,10 +61,6 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
     geom_segment(aes(x = 0.5, y = 4.5, xend = 5.5, yend = 4.5), size = 2) +
     annotate("text", x = 3, y = 2.85, label = bench_num, fontface = "bold", size = 25) +
     annotate("text", x = 3, y = 2.1, label = bench_label, fontface = "bold", size = 15) +
-    scale_fill_gradient(low = color_vec[1],
-                        high = color_vec[2],
-                        na.value = color_vec[3],
-                        lim = c(0, target_num - 1)) +
     coord_fixed() +
     theme_void() +
     theme(legend.position = "none",
@@ -132,7 +141,12 @@ ui <- bootstrapPage(
 server <- function(input, output, session) {
   # Figure out where to store credentials
   gs4_deauth()
+  
+  # Real sheet
   pollen_data_sheet <- read_sheet("15oanRivQrhWl0EFmv4zxZqsIB1pLp9InEP43pjqkfGs")
+  
+  # Test sheet. This should be commented out
+  # pollen_data_sheet <- read_sheet("1b2TgPBwmNqq-RkeSDeP4nS60JQ7QZCPP8G4u6s98d1c")
   
   # if statements for color_vec, column_choice, target_num based on slider 
   # input choices
