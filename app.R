@@ -5,6 +5,7 @@ library(ggplot2)
 library(ggnewscale)
 library(dplyr)
 library(bslib)
+library(forcats)
 
 
 # Functions ---------------------------------------------------------------
@@ -40,9 +41,31 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
                    fill = ready_for_frozen_pollen,
                    size = ready_for_frozen_pollen), 
                stroke = 2) +
-    scale_shape_manual(values = c(NA, 23, 21)) +
-    scale_fill_manual(values = c(NA, "yellow", "green")) +
-    scale_size_manual(values = c(NA, 2.2, 3)) +
+    # If there are no plants with "pollen_finished"
+    {(if(!nrow(pollen_data %>% filter(bench == bench_num &
+                                     (ready_for_frozen_pollen == "pollen_finished"))))
+      list(
+      scale_shape_manual(values = c(NA, 21)),
+      scale_fill_manual(values = c(NA, "green")),
+      scale_size_manual(values = c(NA, 3))
+      )
+      )} +
+    # If there are no plants with "ready"
+    {(if(!nrow(pollen_data %>% filter(bench == bench_num &
+                                      (ready_for_frozen_pollen == "ready"))))
+      list(
+        scale_shape_manual(values = c(NA, 23)),
+        scale_fill_manual(values = c(NA, "yellow")),
+        scale_size_manual(values = c(NA, 2.2))
+      )
+    )} + 
+    {(if(nrow(pollen_data %>% filter(bench == bench_num) %>% select(ready_for_frozen_pollen) %>% distinct) == 3)
+      list(
+        scale_shape_manual(values = c(NA, 23, 21)),
+        scale_fill_manual(values = c(NA, "yellow", "green")),
+        scale_size_manual(values = c(NA, 2.2, 3))
+      )
+    )} +
     # Crazy that this works
     {if(nrow(pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed")))
       geom_segment(data = pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed"),
