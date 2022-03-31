@@ -66,17 +66,19 @@ make_plot <- function(pollen_data, bench_num, color_vec, column_choice, bench_la
         scale_size_manual(values = c(NA, 2.2, 3))
       )
     )} +
-    # Crazy that this works
-    {if(nrow(pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed")))
-      geom_segment(data = pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed"),
-                   aes(x = x - 0.45, y = y - 0.45, xend = x + 0.45, yend = y + 0.45),
-                   size = 2,
-                   color = "red")} +
-    {if(nrow(pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed")))
-      geom_segment(data = pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed"),
-                   aes(x = x - 0.45, y = y + 0.45, xend = x + 0.45, yend = y - 0.45),
-                   size = 2,
-                   color = "red")} +
+    # Crazy that this works (should make this into a list)
+    {if(nrow(pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed" & accession != "CW0000")))
+      list(
+        geom_segment(data = pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed" & accession != "CW0000"), 
+                     aes(x = x - 0.45, y = y - 0.45, xend = x + 0.45, yend = y + 0.45),
+                     size = 2,
+                     color = "red"),
+        geom_segment(data = pollen_data %>% filter(bench == bench_num) %>% filter(plant_removed == "plant_removed" & accession != "CW0000"), 
+                     aes(x = x - 0.45, y = y + 0.45, xend = x + 0.45, yend = y - 0.45),
+                     size = 2,
+                     color = "red")
+      )
+    } +
     geom_text(color = "black", fontface = "bold", size = 5) +
     geom_segment(aes(x = 0.5, y = 0.5, xend = 0.5, yend = 4.5), size = 2) +
     geom_segment(aes(x = 5.5, y = 0.5, xend = 5.5, yend = 4.5), size = 2) +
